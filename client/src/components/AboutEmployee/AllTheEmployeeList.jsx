@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import  { useEffect, useState } from 'react';
+
 
 function EmployeeCard({ employee }) {
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg m-4">
-      <div className="px-6 py-4">
-        <Link to={`/employee/${employee._id}`} className="font-bold text-xl mb-2 block text-blue-600 hover:underline">
-          <span>Name:</span> {employee.employeeName}
-        </Link>
+      <div >
+  
+          <span className=''>Name:</span> {employee.employeeName}
+        
         <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designnation}</p>
         <p className="text-gray-700 text-base"><span>Location:</span> {employee.location}</p>
+        <p className="text-gray-700 text-base"><span>Email:</span> {employee.email}</p>
       </div>
     </div>
   );

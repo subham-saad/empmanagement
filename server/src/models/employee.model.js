@@ -3,40 +3,58 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
-const employeeSchema = new Schema ({
-    
-    designnation: {
-      type: String,
-      required: true
-    },
-    location: {
-      type: String,
-      required: true
-    },
-    employeeName: {
-     type: String,
-     required: true,
-   },
 
-   email:{
-     type: String,
-     required:true,
-     unique:true
-   },
-   password:{
-     type:String,
-     required:true
-   },
-   refreshToken: {
-     type: String
- }
+const departmentSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String
+  },
 
-},
-{
-    timestamps: true
-}
+});
 
-)
+export const Department = mongoose.model("Department", departmentSchema);
+
+const employeeSchema = new Schema({
+  designnation: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String,
+    required: true
+  },
+  employeeName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  refreshToken: {
+    type: String
+  },
+  role: {
+    type: String,
+    enum: ['employee', 'manager'],
+    default: 'employee'
+  },
+  departments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Department'
+  }]
+}, { timestamps: true });
+
+
+
 
 employeeSchema.pre("save", async function(next){
   if(!this.isModified("password")) return next();

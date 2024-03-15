@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import  { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
-function EmployeeDetailsPage() {
+function EmployeeDetailsPage({isLogedIn}) {
   const { id } = useParams();
   const [employee, setEmployee] = useState(null);
 
@@ -13,6 +14,9 @@ function EmployeeDetailsPage() {
           throw new Error('Failed to fetch employee details');
         }
         const data = await response.json();
+        // const { admin } = data.data;
+        // const empployeeId = admin._id
+
         setEmployee(data);
       } catch (error) {
         console.error('Error fetching employee details:', error);
@@ -39,7 +43,10 @@ function EmployeeDetailsPage() {
         <div className="mb-4">
           <strong>Location:</strong> {employee.location}
         </div>
-        {/* Add more details as needed */}
+       {isLogedIn ? <Link to="/login">
+      <button className="font-bold bg-red-600 p-2 text-white rounded-lg text-md">LogOut</button>
+      </Link> : null}
+      <Link to={`/edit/${id}`}><button className="font-bold bg-red-600 p-2 text-white rounded-lg text-md">Edit your detail</button> </Link>
       </div>
     </div>
   );
