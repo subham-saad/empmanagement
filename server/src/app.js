@@ -20,6 +20,6 @@ app.use(cookieParser())
 // routes
 import EmployeeRouter from './routes/employee.route.js';
 
-app.use("/api/v1/registeration", EmployeeRouter)
+app.use("/api/v1/employeemangement", EmployeeRouter)
 
 export { app }
