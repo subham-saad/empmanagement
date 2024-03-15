@@ -7,6 +7,8 @@ import AllTheEmployeeList from './components/AboutEmployee/AllTheEmployeeList';
 import EmployeeDetailsPage from './components/AboutEmployee/EmployeeDetailsPage';
 import EmployeeLogOut from './components/AboutEmployee/EmployeeLogout';
 import EmployeeByEdit from './components/AboutEmployee/EmployeeByEdit';
+import MangerSignUp from './components/AboutManager.jsx/MangerSignUp';
+import ManagerLogin from './components/AboutManager.jsx/ManagerLogin';
 function App() {
   const isLogedIn = true;
   const [updatedPost, setUpdatedPost] = useState(null);
@@ -24,6 +26,11 @@ function App() {
       <NavBar  isLogedIn={isLogedIn } />
     
    <Routes>
+            {/* Manager Routes */}
+              <Route path="/registersignup" element={<MangerSignUp/>}/>
+              <Route path="/managerlogin" element={<ManagerLogin />} />
+
+            {/* employee routes */}
               <Route path="/registeremployee" element={<EmployeeSignUp/>}/>
               <Route path="/login" element={<EmployeeLogin />} />
               <Route path="/logout" element={<EmployeeLogOut/>} />

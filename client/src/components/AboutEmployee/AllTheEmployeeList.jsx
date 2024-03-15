@@ -1,14 +1,11 @@
 /* eslint-disable react/prop-types */
-import  { useEffect, useState } from 'react';
-
+import { useEffect, useState } from 'react';
 
 function EmployeeCard({ employee }) {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg m-4">
+    <div className="max-w-sm rounded-md p-2  overflow-hidden shadow-lg m-4">
       <div >
-  
           <span className=''>Name:</span> {employee.employeeName}
-        
         <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designnation}</p>
         <p className="text-gray-700 text-base"><span>Location:</span> {employee.location}</p>
         <p className="text-gray-700 text-base"><span>Email:</span> {employee.email}</p>
@@ -65,6 +62,8 @@ function AllTheEmployeeList() {
         >
           <option value="asc">Sort by Name (Asc)</option>
           <option value="desc">Sort by Name (Desc)</option>
+          <option value="location_asc">Sort by Location (Asc)</option>
+          <option value="location_desc">Sort by Location (Desc)</option>
         </select>
       </div>
       <div className="flex flex-wrap justify-center">

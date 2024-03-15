@@ -19,7 +19,9 @@ app.use(cookieParser())
 
 // routes
 import EmployeeRouter from './routes/employee.route.js';
+import ManagerRouter from './routes/manager.route.js'
 
 app.use("/api/v1/employeemangement", EmployeeRouter)
+app.use("/api/v1/managersignup", ManagerRouter)
 
 export { app }

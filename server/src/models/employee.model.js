@@ -42,11 +42,6 @@ const employeeSchema = new Schema({
   refreshToken: {
     type: String
   },
-  role: {
-    type: String,
-    enum: ['employee', 'manager'],
-    default: 'employee'
-  },
   departments: [{
     type: Schema.Types.ObjectId,
     ref: 'Department'
@@ -77,7 +72,7 @@ employeeSchema.methods.generateAccessToken = function() {
     {
       _id: this._id,
       email: this.email,
-      creatorname: this.creatorname
+      employeeName: this.employeeName
     },
     process.env.ACCESS_TOKEN_SECRET,
     {

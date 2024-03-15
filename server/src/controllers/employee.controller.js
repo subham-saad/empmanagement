@@ -2,10 +2,10 @@ import { Employee, Department } from "../models/employee.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { Manager } from '../models/manager.model.js';
 
 
-
-const generateAccessAndRefereshTokens = async (adminId) => {
+ const generateAccessAndRefereshTokens = async (adminId) => {
     try {
         const admin = await Employee.findById(adminId);
         const accessToken = admin.generateAccessToken();
@@ -21,34 +21,39 @@ const generateAccessAndRefereshTokens = async (adminId) => {
     }
   };
 
-  export const assignDepartment = asyncHandler(async (req, res) => {
-    const { employeeId, departmentId } = req.body;
+ 
+export const assignDepartment = async (req, res) => {
+  const { employeeId, departmentId } = req.body;
 
-    // Check if the current user is a manager
-    if (req.user.role !== 'manager') {
-        throw new ApiError(403, "Only managers can assign departments");
+  try {
+   
+    const manager = await Manager.findById(req.user.id);
+    if (!manager) {
+      throw new ApiError(403, 'Unauthorized: Only managers can assign departments');
     }
 
-    // Check if the department exists
+
     const department = await Department.findById(departmentId);
     if (!department) {
-        throw new ApiError(404, "Department not found");
+      throw new ApiError(404, 'Department not found');
     }
 
-    // Update the employee's departments array with the new department
-    const employee = await Employee.findByIdAndUpdate(
-        employeeId,
-        { $addToSet: { departments: departmentId } }, // Add the departmentId to the departments array if it doesn't already exist
-        { new: true }
+ 
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      employeeId,
+      { $addToSet: { departments: departmentId } }, 
+      { new: true }
     );
 
-    if (!employee) {
-        throw new ApiError(404, "Employee not found");
+    if (!updatedEmployee) {
+      throw new ApiError(404, 'Employee not found');
     }
 
-    return res.status(200).json(new ApiResponse(200, employee, "Department assigned successfully"));
-});
-
+    res.status(200).json(new ApiResponse(200, updatedEmployee, 'Department assigned successfully'));
+  } catch (error) {
+    res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
+  }
+};
 
 //   export const registerEmployee = asyncHandler (async (req, res) => {
 //     const { designnation, location, employeeName, email, password } = req.body;
@@ -158,11 +163,11 @@ export const getEmployee = async (req, res) => {
     try {
       let query = {};
 
-      // Check if sortBy is provided and set default value to 'asc'
+    
       const sortOrder = sortBy === 'desc' ? -1 : 1;
 
       if (search) {
-        // If search term is provided, add a case-insensitive regex search to the query
+      
         query = {
           $or: [
             { employeeName: { $regex: new RegExp(search, 'i') } },
