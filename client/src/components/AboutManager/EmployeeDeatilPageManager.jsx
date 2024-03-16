@@ -50,6 +50,7 @@ function EmployeeDeatilPageManager({isLogedIn}) {
         </div>
        
       <Link to={`/edit/${id}`}><button className="font-bold bg-red-600 p-2 text-white rounded-lg text-md">Edit employee info</button> </Link>
+      <Link to={`/assign`}><button className="font-bold bg-red-600 p-2 text-white rounded-lg text-md">Assign department</button> </Link>
       </div>
     </div>
   );

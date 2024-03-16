@@ -18,7 +18,7 @@ const departmentSchema = new Schema({
 export const Department = mongoose.model("Department", departmentSchema);
 
 const employeeSchema = new Schema({
-  designnation: {
+  designation: {
     type: String,
     required: true
   },
@@ -45,9 +45,12 @@ const employeeSchema = new Schema({
   departments: [{
     type: Schema.Types.ObjectId,
     ref: 'Department'
-  }]
+  }],
+  manager: {
+    type: Schema.Types.ObjectId,
+    ref: 'Manager'
+  }
 }, { timestamps: true });
-
 
 
 

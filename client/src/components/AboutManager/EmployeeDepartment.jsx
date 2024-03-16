@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function EmployeeCard({ employee, onDelete }) {
+function EmployeeCard({ employee, onDelete, employeeId }) {
   const handleDelete = async () => {
     try {
       const response = await fetch(`http://localhost:8000/api/v1/employeemanagement/deleteemployee/${employee._id}`, {
@@ -11,7 +11,9 @@ function EmployeeCard({ employee, onDelete }) {
       if (!response.ok) {
         throw new Error('Failed to delete employee');
       }
-      onDelete(employee._id);
+      const deletedPost = await response.json();
+      console.log(deletedPost)
+      onDelete(deletedPost)
     } catch (error) {
       console.error('Error deleting employee:', error);
     }
@@ -68,7 +70,7 @@ function EmployeeDepartment() {
   };
 
   const handleDeleteEmployee = (employeeId) => {
-    setEmployees(employees.filter(employee => employee._id !== employeeId));
+    setEmployees(employees.filter(employee => employee._id !== employeeId._id));
   };
 
 
@@ -97,7 +99,7 @@ function EmployeeDepartment() {
       {error && <p>Error: {error}</p>}
       <div className="flex flex-wrap justify-center">
         {employees.map(employee => (
-          <EmployeeCard key={employee._id} employee={employee} onDelete={handleDeleteEmployee} /> 
+          <EmployeeCard key={employee._id} employeeId={employee._id} employee={employee} onDelete={handleDeleteEmployee} /> 
         ))}
       </div>
     </div>

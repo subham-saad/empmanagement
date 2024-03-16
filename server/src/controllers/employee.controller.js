@@ -147,7 +147,7 @@ export const getEmployee = async (req, res) => {
   export const updateEmployeeData = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { designnation, location, employeeName, email } = req.body;
-
+   
     if (
         [designnation, location, employeeName, email].some((field) => field?.trim() === "")
     ) {
@@ -176,29 +176,38 @@ export const getEmployee = async (req, res) => {
 });
   
 
-
 export const deleteEmployee = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
- try {
+  console.log('abc',id)
+  try {
+    
     const manager = await Manager.findById(req.user.id);
     if (!manager) {
       throw new ApiError(403, 'Unauthorized: Only managers can delete');
     }
-    const deletedEmp = await Employee.findByIdAndDelete(id);
+
   
+    const employee = await Employee.findById(id);
+    if (!employee) {
+      throw new ApiError(404, 'Employee not found');
+    }
+
+
+    if (!employee.manager.equals(manager._id)) {
+      throw new ApiError(403, 'Unauthorized: Manager is not assigned to this employee');
+    }
+
+   
+    const deletedEmp = await Employee.findByIdAndDelete(id);
     if (!deletedEmp) {
-      throw new ApiError(404, "Employee not found");
+      throw new ApiError(404, 'Employee not found');
     }
   
-    return res.status(200).json(
-      new ApiResponse(200, deletedEmp, "Employee deleted successfully")
-    );
+    return res.status(200).json(new ApiResponse(200, deletedEmp, 'Employee deleted successfully'));
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
   }
 });
-
 
 
   export const LoginEmployee = asyncHandler(async (req, res) =>{

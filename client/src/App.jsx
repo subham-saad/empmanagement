@@ -11,7 +11,7 @@ import MangerSignUp from './components/AboutManager/MangerSignUp';
 import ManagerLogin from './components/AboutManager/ManagerLogin';
 import EmployeeDepartment from './components/AboutManager/EmployeeDepartment';
 import EmployeeDeatilPageManager from './components/AboutManager/EmployeeDeatilPageManager';
-
+import AssignDepartmentForm from './components/Department/AssignDepartment';
 function App() {
   const isLogedIn = true;
   const [updatedPost, setUpdatedPost] = useState(null);
@@ -34,7 +34,7 @@ function App() {
               <Route path="/managerlogin" element={<ManagerLogin />} />
               <Route path="/employeedepartment" element={<EmployeeDepartment />} />
               <Route path="/employeemanage/:id" element={<EmployeeDeatilPageManager />} />
-
+              <Route path="/assign" element={<AssignDepartmentForm />} />
             {/* employee routes */}
               <Route path="/registeremployee" element={<EmployeeSignUp/>}/>
               <Route path="/login" element={<EmployeeLogin />} />

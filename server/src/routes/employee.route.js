@@ -9,7 +9,7 @@ router.route('/registeremployee').post(registerEmployee);
 router.route('/getemployee').get(getEmployee)
 router.route('/getemployee/:id').get(getEmployeeById)
 router.route('/updateemployeeinfo/:id').patch(updateEmployeeData);
-router.route('/deleteemployee/:id').delete(verifyManagerJWT, deleteEmployee);
+ router.route('/deleteemployee/:id').delete(deleteEmployee);
 router.route('/loginemployee').post(LoginEmployee);
 router.route('/logout').post(verifyJWT, logoutEmployee)
 router.route('/assignderpartment').post(verifyManagerJWT, assignDepartment)
