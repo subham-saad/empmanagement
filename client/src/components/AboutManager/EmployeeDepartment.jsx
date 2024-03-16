@@ -1,24 +1,41 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 
-function EmployeeCard({ employee }) {
+function EmployeeCard({ employee, onDelete }) {
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/employeemanagement/deleteemployee/${employee._id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete employee');
+      }
+      onDelete(employee._id);
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
+  };
+
   return (
-    <div className="max-w-sm rounded-md p-2  overflow-hidden shadow-lg m-4">
-      <div >
-          <span className=''>Name:</span> {employee.employeeName}
-        <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designnation}</p>
+    <div className="max-w-sm rounded-md p-2 overflow-hidden shadow-lg m-4">
+      <div>
+        <span className=''>Name:</span> {employee.employeeName}
+        <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designation}</p>
         <p className="text-gray-700 text-base"><span>Location:</span> {employee.location}</p>
         <p className="text-gray-700 text-base"><span>Email:</span> {employee.email}</p>
         <p className="text-gray-700 text-base"><span>Department:</span> {employee.department}</p>
+        <span className='flex justify-center'>
+          <button className='bg-sky-500 rounded-md px-2 py-1 text-[14px] my-2' onClick={handleDelete}>Delete</button>
+        </span>
       </div>
     </div>
   );
 }
 
-function AllTheEmployeeList() {
+function EmployeeDepartment() {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('asc');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchEmployees() {
@@ -45,9 +62,14 @@ function AllTheEmployeeList() {
     setSortBy(event.target.value);
   };
 
+  const handleDeleteEmployee = (employeeId) => {
+    setEmployees(employees.filter(employee => employee._id !== employeeId));
+  };
+
+
   return (
     <div>
-      <h1 className="text-center font-bold text-3xl py-4">All The Employees</h1>
+      <h1 className="text-center font-bold text-3xl py-4">The Employees data</h1>
       <div className="flex justify-center">
         <input
           type="text"
@@ -67,13 +89,14 @@ function AllTheEmployeeList() {
           <option value="location_desc">Sort by Location (Desc)</option>
         </select>
       </div>
+      {error && <p>Error: {error}</p>}
       <div className="flex flex-wrap justify-center">
         {employees.map(employee => (
-          <EmployeeCard key={employee._id} employee={employee} />
+          <EmployeeCard key={employee._id} employee={employee} onDelete={handleDeleteEmployee} />
         ))}
       </div>
     </div>
   );
 }
 
-export default AllTheEmployeeList;
+export default EmployeeDepartment;

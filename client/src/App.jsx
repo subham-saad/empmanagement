@@ -7,8 +7,11 @@ import AllTheEmployeeList from './components/AboutEmployee/AllTheEmployeeList';
 import EmployeeDetailsPage from './components/AboutEmployee/EmployeeDetailsPage';
 import EmployeeLogOut from './components/AboutEmployee/EmployeeLogout';
 import EmployeeByEdit from './components/AboutEmployee/EmployeeByEdit';
-import MangerSignUp from './components/AboutManager.jsx/MangerSignUp';
-import ManagerLogin from './components/AboutManager.jsx/ManagerLogin';
+import MangerSignUp from './components/AboutManager/MangerSignUp';
+import ManagerLogin from './components/AboutManager/ManagerLogin';
+import EmployeeDepartment from './components/AboutManager/EmployeeDepartment'
+
+
 function App() {
   const isLogedIn = true;
   const [updatedPost, setUpdatedPost] = useState(null);
@@ -29,6 +32,8 @@ function App() {
             {/* Manager Routes */}
               <Route path="/registersignup" element={<MangerSignUp/>}/>
               <Route path="/managerlogin" element={<ManagerLogin />} />
+              <Route path="/employeedepartment" element={<EmployeeDepartment />} />
+
 
             {/* employee routes */}
               <Route path="/registeremployee" element={<EmployeeSignUp/>}/>
@@ -37,11 +42,6 @@ function App() {
               <Route path="/" element={<AllTheEmployeeList/>} />
               <Route path="/employee/:id" element={<EmployeeDetailsPage  isLogedIn={isLogedIn }/>} />
               <Route path="/edit/:id" element={<EmployeeByEdit onUpdate={handleUpdate} onClose={handleClose} />}/>
-          {/*  <Route path="/" element={<BlogPost />} />
-           <Route path="/logout" element={<LogOut/>} />
-        <Route path="/createblog" element={<CreateBlogForm/>}/>
-        <Route path="/oneblogpost" element={<OneBlogPost />} />
-        */}
       </Routes>
     </Router>
   );

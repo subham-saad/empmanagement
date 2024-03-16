@@ -46,6 +46,7 @@ function ManagerLogin() {
       localStorage.setItem('user-info', accessToken);
       setAccessToken(accessToken);
       setSuccessMessage('Login successful!');
+      navigate(`/employeedepartment`)
     } catch (error) {
       console.error(error.message);
   
