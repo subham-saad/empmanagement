@@ -20,7 +20,9 @@ function EmployeeCard({ employee, onDelete }) {
   return (
     <div className="max-w-sm rounded-md p-2 overflow-hidden shadow-lg m-4">
       <div>
+      <Link to={`/employeemanage/${employee._id}`}>
         <span className=''>Name:</span> {employee.employeeName}
+      </Link>
         <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designation}</p>
         <p className="text-gray-700 text-base"><span>Location:</span> {employee.location}</p>
         <p className="text-gray-700 text-base"><span>Email:</span> {employee.email}</p>
@@ -95,7 +97,7 @@ function EmployeeDepartment() {
       {error && <p>Error: {error}</p>}
       <div className="flex flex-wrap justify-center">
         {employees.map(employee => (
-         <Link to={`/employeemanage/${employee._id}`}> <EmployeeCard key={employee._id} employee={employee} onDelete={handleDeleteEmployee} /> </Link>
+          <EmployeeCard key={employee._id} employee={employee} onDelete={handleDeleteEmployee} /> 
         ))}
       </div>
     </div>
