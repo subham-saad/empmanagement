@@ -9,8 +9,8 @@ import EmployeeLogOut from './components/AboutEmployee/EmployeeLogout';
 import EmployeeByEdit from './components/AboutEmployee/EmployeeByEdit';
 import MangerSignUp from './components/AboutManager/MangerSignUp';
 import ManagerLogin from './components/AboutManager/ManagerLogin';
-import EmployeeDepartment from './components/AboutManager/EmployeeDepartment'
-
+import EmployeeDepartment from './components/AboutManager/EmployeeDepartment';
+import EmployeeDeatilPageManager from './components/AboutManager/EmployeeDeatilPageManager';
 
 function App() {
   const isLogedIn = true;
@@ -33,7 +33,7 @@ function App() {
               <Route path="/registersignup" element={<MangerSignUp/>}/>
               <Route path="/managerlogin" element={<ManagerLogin />} />
               <Route path="/employeedepartment" element={<EmployeeDepartment />} />
-
+              <Route path="/employeemanage/:id" element={<EmployeeDeatilPageManager />} />
 
             {/* employee routes */}
               <Route path="/registeremployee" element={<EmployeeSignUp/>}/>

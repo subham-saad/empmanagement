@@ -1,4 +1,6 @@
+/* eslint-disable react/jsx-key */
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function EmployeeCard({ employee, onDelete }) {
   const handleDelete = async () => {
@@ -45,6 +47,7 @@ function EmployeeDepartment() {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
+        
         setEmployees(data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -92,7 +95,7 @@ function EmployeeDepartment() {
       {error && <p>Error: {error}</p>}
       <div className="flex flex-wrap justify-center">
         {employees.map(employee => (
-          <EmployeeCard key={employee._id} employee={employee} onDelete={handleDeleteEmployee} />
+         <Link to={`/employeemanage/${employee._id}`}> <EmployeeCard key={employee._id} employee={employee} onDelete={handleDeleteEmployee} /> </Link>
         ))}
       </div>
     </div>
