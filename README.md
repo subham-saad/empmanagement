@@ -1,10 +1,16 @@
-Install dependencies for the server: cd server npm install
+Install dependencies for the server: 
+cd server 
+npm install
 
-Start the server: npm run dev
+Start the server: 
+npm run dev
 
-Install dependencies for the client: cd ../client npm install
+Install dependencies for the client: 
+cd ../client 
+npm install
 
-Start the Vite development server for the client: npm run dev
+Start the Vite development server for the client: 
+npm run dev
 
 empmanagement/ ├── server/ ├── .env │ ├── index.js
 │ ├── app.js
