@@ -21,40 +21,58 @@ import { Manager } from '../models/manager.model.js';
     }
   };
 
- 
-export const assignDepartment = async (req, res) => {
-  const { employeeId, departmentId } = req.body;
 
+  export const assignDepartment = asyncHandler(async (req, res) => {
+    const { employeeName, departmentName } = req.body;
+  
+    try {
+      if (!req.admin) {
+        throw new ApiError(403, 'Unauthorized: Only managers can assign departments');
+      }
+  
+  
+      const department = await Department.findOne({ name: departmentName });
+      if (!department) {
+        throw new ApiError(404, 'Department not found');
+      }
+  
+
+      const employee = await Employee.findOne({ employeeName });
+      if (!employee) {
+        throw new ApiError(404, 'Employee not found');
+      }
+  
+      employee.departments.push(department._id); // Assuming departments is an array of department IDs in the employee schema
+      await employee.save();
+  
+      res.status(200).json(new ApiResponse(200, { employeeName, departmentName }, 'Department assigned successfully'));
+    } catch (error) {
+      console.error('Error in assignDepartment:', error);
+      res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
+    }
+  });
+  
+  
+
+export const createDepartment = async (req, res) => {
   try {
-   
-    const manager = await Manager.findById(req.user.id);
-    if (!manager) {
-      throw new ApiError(403, 'Unauthorized: Only managers can assign departments');
-    }
+  
+    const { name, description } = req.body;
 
+  
+    const newDepartment = new Department({
+      name,
+      description
+    });
 
-    const department = await Department.findById(departmentId);
-    if (!department) {
-      throw new ApiError(404, 'Department not found');
-    }
+    const savedDepartment = await newDepartment.save();
 
- 
-    const updatedEmployee = await Employee.findByIdAndUpdate(
-      employeeId,
-      { $addToSet: { departments: departmentId } }, 
-      { new: true }
-    );
-
-    if (!updatedEmployee) {
-      throw new ApiError(404, 'Employee not found');
-    }
-
-    res.status(200).json(new ApiResponse(200, updatedEmployee, 'Department assigned successfully'));
+    res.status(201).json(new ApiResponse(201, savedDepartment, 'Department created successfully'));
   } catch (error) {
+    
     res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
   }
 };
-
 
 
 export const registerEmployee = asyncHandler(async (req, res) => {
@@ -124,27 +142,24 @@ export const getEmployee = async (req, res) => {
 };
 
 
-
   export const getEmployeeById = async (req, res) => {
     const { id } = req.params;
   
     try {
-      const post = await Employee.findById(id);
+      const employee = await Employee.findById(id).populate('departments'); // Populate the departments field
   
-      if (!post) {
+      if (!employee) {
         return res.status(404).json({ message: 'Employee not found' });
       }
   
-      res.status(200).json(post);
+      res.status(200).json(employee);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   };
+  
 
-
-
-
-  export const updateEmployeeData = asyncHandler(async (req, res) => {
+export const updateEmployeeData = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { designnation, location, employeeName, email } = req.body;
    
@@ -174,40 +189,57 @@ export const getEmployee = async (req, res) => {
         new ApiResponse(200, updatedEmployee, "Employee info updated successfully")
     );
 });
-  
 
-export const deleteEmployee = asyncHandler(async (req, res) => {
+export const updateEmployeeDeparment = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log('abc',id)
-  try {
-    
-    const manager = await Manager.findById(req.user.id);
-    if (!manager) {
-      throw new ApiError(403, 'Unauthorized: Only managers can delete');
-    }
-
-  
-    const employee = await Employee.findById(id);
-    if (!employee) {
-      throw new ApiError(404, 'Employee not found');
-    }
-
-
-    if (!employee.manager.equals(manager._id)) {
-      throw new ApiError(403, 'Unauthorized: Manager is not assigned to this employee');
-    }
-
-   
-    const deletedEmp = await Employee.findByIdAndDelete(id);
-    if (!deletedEmp) {
-      throw new ApiError(404, 'Employee not found');
-    }
-  
-    return res.status(200).json(new ApiResponse(200, deletedEmp, 'Employee deleted successfully'));
-  } catch (error) {
-    res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
+  const {  employeeName, departments } = req.body;
+ 
+  if (
+      [ employeeName, departments].some((field) => field?.trim() === "")
+  ) {
+      throw new ApiError(400, "All fields are required");
   }
+
+  const updatedEmployee = await Employee.findByIdAndUpdate(
+      id,
+      {
+          departments,
+          employeeName
+        
+        
+      },
+      { new: true }
+  );
+
+  if (!updatedEmployee) {
+      throw new ApiError(404, "Employee not found");
+  }
+
+  return res.status(200).json(
+      new ApiResponse(200, updatedEmployee, "Employee department updated successfully")
+  );
 });
+
+
+
+
+export const deletePost = asyncHandler(async (req, res) => {
+    
+  const { id } = req.params;
+
+  const deletedPost = await Employee.findByIdAndDelete(id);
+
+  if (!deletedPost) {
+    throw new ApiError(404, "Post not found");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, deletedPost, "Post deleted successfully")
+  );
+});
+  
+
+
 
 
   export const LoginEmployee = asyncHandler(async (req, res) =>{

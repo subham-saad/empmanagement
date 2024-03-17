@@ -27,7 +27,6 @@ function MangerSignUp() {
         throw new Error('Failed to register manager');
       }
 
-      // Registration successful, update state to display success message
       setRegistrationSuccess(true);
     } catch (error) {
       console.error('Error registering manager:', error);

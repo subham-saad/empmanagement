@@ -15,41 +15,35 @@ function ManagerLogin() {
   
   const handleLogin = async () => {
     try {
-    
       const response = await fetch('http://localhost:8000/api/v1/managersignup/logimanager', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('user-info')}`,
         },
         body: JSON.stringify({
           email: email,
           password: password,
-  
         }),
       });
   
-      
       if (!response.ok) {
-      
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
       
       const data = await response.json();
-      console.log(data)
-    
+      console.log(data);
+  
       const { accessToken, admin } = data.data;
       console.log('Access Token:', accessToken);
- 
-     
-    
+  
       localStorage.setItem('user-info', accessToken);
       setAccessToken(accessToken);
       setSuccessMessage('Login successful!');
-      navigate(`/employeedepartment`)
+      navigate(`/employeedepartment`);
     } catch (error) {
       console.error(error.message);
-  
       setErrorMessage('Login failed. Please check your credentials.');
     }
   };

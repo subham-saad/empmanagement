@@ -20,7 +20,7 @@ export const Department = mongoose.model("Department", departmentSchema);
 const employeeSchema = new Schema({
   designation: {
     type: String,
-    required: true
+    
   },
   location: {
     type: String,

@@ -85,7 +85,7 @@ const generateAccessAndRefereshTokens = async (adminId) => {
    }
 
   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(admin._id)
- 
+ console.log(accessToken, refreshToken)
 
    const loggedInUser = await Manager.findById(admin._id).select("-password -refreshToken")
    

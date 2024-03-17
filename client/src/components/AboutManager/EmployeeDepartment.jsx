@@ -2,22 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function EmployeeCard({ employee, onDelete, employeeId }) {
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/v1/employeemanagement/deleteemployee/${employee._id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to delete employee');
-      }
-      const deletedPost = await response.json();
-      console.log(deletedPost)
-      onDelete(deletedPost)
-    } catch (error) {
-      console.error('Error deleting employee:', error);
-    }
-  };
+
+function EmployeeCard({ employee }) {
 
   return (
     <div className="max-w-sm rounded-md p-2 overflow-hidden shadow-lg m-4">
@@ -28,10 +14,7 @@ function EmployeeCard({ employee, onDelete, employeeId }) {
         <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designation}</p>
         <p className="text-gray-700 text-base"><span>Location:</span> {employee.location}</p>
         <p className="text-gray-700 text-base"><span>Email:</span> {employee.email}</p>
-        <p className="text-gray-700 text-base"><span>Department:</span> {employee.department}</p>
-        <span className='flex justify-center'>
-          <button className='bg-sky-500 rounded-md px-2 py-1 text-[14px] my-2' onClick={handleDelete}>Delete</button>
-        </span>
+       
       </div>
     </div>
   );
@@ -52,11 +35,13 @@ function EmployeeDepartment() {
         }
         const data = await response.json();
         
+
         setEmployees(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     }
+  
 
     fetchEmployees();
   }, [searchTerm, sortBy]);
@@ -69,9 +54,6 @@ function EmployeeDepartment() {
     setSortBy(event.target.value);
   };
 
-  const handleDeleteEmployee = (employeeId) => {
-    setEmployees(employees.filter(employee => employee._id !== employeeId._id));
-  };
 
 
   return (
@@ -99,7 +81,7 @@ function EmployeeDepartment() {
       {error && <p>Error: {error}</p>}
       <div className="flex flex-wrap justify-center">
         {employees.map(employee => (
-          <EmployeeCard key={employee._id} employeeId={employee._id} employee={employee} onDelete={handleDeleteEmployee} /> 
+          <EmployeeCard key={employee._id} departments={employee.departments}  employee={employee}  /> 
         ))}
       </div>
     </div>
