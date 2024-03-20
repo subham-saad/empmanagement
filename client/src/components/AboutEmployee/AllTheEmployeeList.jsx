@@ -9,7 +9,7 @@ function EmployeeCard({ employee }) {
         <p className="text-gray-700 text-base"><span>Designation:</span> {employee.designnation}</p>
         <p className="text-gray-700 text-base"><span>Location:</span> {employee.location}</p>
         <p className="text-gray-700 text-base"><span>Email:</span> {employee.email}</p>
-        <p className="text-gray-700 text-base"><span>Department:</span> {employee.department}</p>
+   
       </div>
     </div>
   );
