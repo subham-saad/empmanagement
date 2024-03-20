@@ -13,6 +13,7 @@ import EmployeeDepartment from './components/AboutManager/EmployeeDepartment';
 import EmployeeDeatilPageManager from './components/AboutManager/EmployeeDeatilPageManager';
 import AssignDepartmentForm from './components/Department/AssignDepartment';
 import PopulateDep from './components/Department/PopulateDep';
+import CreateNewDep from './components/Department/CreateNewDep';
 function App() {
   const isLogedIn = true;
   const [updatedPost, setUpdatedPost] = useState(null);
@@ -37,6 +38,7 @@ function App() {
               <Route path="/employeemanage/:id" element={<EmployeeDeatilPageManager />} />
               <Route path="/populatedep" element={<PopulateDep />} />
               <Route path="/assign" element={<AssignDepartmentForm />} />
+              <Route path='/createnewdep' element={<CreateNewDep/>} />
             {/* employee routes */}
               <Route path="/registeremployee" element={<EmployeeSignUp/>}/>
               <Route path="/login" element={<EmployeeLogin />} />

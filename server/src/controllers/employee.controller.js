@@ -42,7 +42,7 @@ import { Manager } from '../models/manager.model.js';
         throw new ApiError(404, 'Employee not found');
       }
   
-      employee.departments.push(department._id); // Assuming departments is an array of department IDs in the employee schema
+      employee.departments.push(department._id);
       await employee.save();
   
       res.status(200).json(new ApiResponse(200, { employeeName, departmentName }, 'Department assigned successfully'));
@@ -71,6 +71,23 @@ export const createDepartment = async (req, res) => {
   } catch (error) {
     
     res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
+  }
+};
+
+export const getDepartments = async (req, res) => {
+  try {
+   
+    const departments = await Department.find({}, 'name description');
+
+    if (!departments) {
+ 
+      return res.status(200).json([]);
+    }
+
+
+    res.status(200).json(departments);
+  } catch (error) {
+     res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
   }
 };
 
@@ -161,10 +178,10 @@ export const getEmployee = async (req, res) => {
 
 export const updateEmployeeData = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { designnation, location, employeeName, email } = req.body;
+    const { location, employeeName, email } = req.body;
    
     if (
-        [designnation, location, employeeName, email].some((field) => field?.trim() === "")
+        [ location, employeeName, email].some((field) => field?.trim() === "")
     ) {
         throw new ApiError(400, "All fields are required");
     }
@@ -172,7 +189,7 @@ export const updateEmployeeData = asyncHandler(async (req, res) => {
     const updatedEmployee = await Employee.findByIdAndUpdate(
         id,
         {
-            designnation,
+           
             location,
             employeeName,
             email

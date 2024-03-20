@@ -49,34 +49,34 @@ function ManagerLogin() {
   };
   
 
-  const handleLogout = async () => {
-    try {
+  // const handleLogout = async () => {
+  //   try {
  
-      const response = await fetch('http://localhost:8000/api/v1/employeemangement/logoutEmployee', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('user-info')}`, 
-        },
-        credentials: 'include', 
-      });
+  //     const response = await fetch('http://localhost:8000/api/v1/employeemangement/logoutEmployee', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${localStorage.getItem('user-info')}`, 
+  //       },
+  //       credentials: 'include', 
+  //     });
   
-      if (!response.ok) {
+  //     if (!response.ok) {
        
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.message);
+  //     }
   
 
-      localStorage.removeItem('user-info');
+  //     localStorage.removeItem('user-info');
 
     
-       window.location.href = "/login"
+  //      window.location.href = "/login"
    
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
   
 
   return (

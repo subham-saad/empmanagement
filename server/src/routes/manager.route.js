@@ -7,7 +7,7 @@ import  { registerManager, LoginManager}  from "../controllers/manager.controlle
 const router = Router()
 
 router.route('/registermanager').post(registerManager);
-router.route('/logimanager').post(verifyManagerJWT, LoginManager);
+router.route('/logimanager').post( LoginManager);
 // router.route('/deleteemployee/:id').delete(verifyManagerJWT, deleteEmployee);
 
 export default router;

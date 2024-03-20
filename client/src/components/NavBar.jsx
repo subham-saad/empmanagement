@@ -27,6 +27,7 @@ function NavBar({isLogedIn}) {
       <Link to="/managerlogin">
       <button className="font-bold relative  shadow-md shadow-violet-400  bg-gradient-to-r from-white via-slate-300  to-white p-3 my-2 text-slate-600 rounded-lg text-md">Manager Login</button>
       </Link> 
+      <Link to='/createnewdep'>  <button className="font-bold relative  shadow-md shadow-violet-400  bg-gradient-to-r from-white via-slate-300  to-white p-3 my-2 text-slate-600 rounded-lg text-md">Create department</button></Link>
     </nav>
   )
 }
